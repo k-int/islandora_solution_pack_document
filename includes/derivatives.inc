@@ -23,7 +23,7 @@ function islandora_document_create_all_derivatives(FedoraObject $object) {
   $success = TRUE;
   $file_uri = islandora_document_get_derivative_source_as_unmanaged_file($object);
   
-  // Check if the file is a PDF
+  // Get the mime type.
   $mime_detector = new MimeDetect();
   $mimetype = $mime_detector->getMimetype($file_uri);
   

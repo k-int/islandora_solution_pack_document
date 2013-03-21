@@ -48,7 +48,8 @@ function islandora_document_document_upload_form(array $form, array &$form_state
  *   The drupal form state.
  */
 function islandora_document_document_upload_form_submit(array $form, array &$form_state) {
-  $object = $form_state['islandora']['objects'][0];
+  $object = islandora_ingest_form_get_object($form_state);
+  
   if (empty($object['OBJ'])) {
     $ds = $object->constructDatastream('OBJ', 'M');
     $object->ingestDatastream($ds);
@@ -61,19 +62,4 @@ function islandora_document_document_upload_form_submit(array $form, array &$for
   $ds->setContentFromFile($document_path, FALSE);
   $ds->label = $document_file->filename;
   $ds->mimetype = $document_file->filemime;
-
-//   if (isset($form_state['values']['text'])) {
-//     if (empty($object['FULL_TEXT'])) {
-//       $ds = $object->constructDatastream('FULL_TEXT', 'M');
-//       $object->ingestDatastream($ds);
-//     }
-//     else {
-//       $ds = $object['FULL_TEXT'];
-//     }
-//     $text_file = file_load($form_state['values']['text']);
-//     $text_path = drupal_realpath($text_file->uri);
-//     $ds->setContentFromFile($text_path, FALSE);
-//     $ds->label = $text_file->filename;
-//     $ds->mimetype = $text_file->filemime;
-//   }
 }

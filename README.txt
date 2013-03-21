@@ -4,19 +4,12 @@ CONTENTS OF THIS FILE
 
  * summary
  * requirements
- * installation
- * configuration
- * customization
- * troubleshooting
- * faq
- * contact
- * sponsors
 
 
 SUMMARY
 -------
 
-PDF Solution Pack for Islandora
+Document Solution Pack for Islandora
 
 Loads all required Fedora Objects, and creates an empty collection
 object to accept ingested documents of types supported by JODCOnverter
@@ -44,29 +37,3 @@ Apache Tika
   - should you wish to extract the text from docs.
    This can be useful to provide text searching within the document but it not mandatory.
    http://tika.apache.org/
-
-INSTALLATION
-------------
-
-CONFIGURATION
--------------
-
-
-CUSTOMIZATION
--------------
-
-
-TROUBLESHOOTING
----------------
-
-
-F.A.Q.
-------
-
-
-CONTACT
--------
-
-
-SPONSORS
---------

@@ -76,26 +76,26 @@ function islandora_document_admin($form, &$form_state) {
 function islandora_document_admin_add_text_extraction(&$form, &$form_state) {
 	
 	// Get the current value.
-	$islandora_document_path_to_tika = islandora_document_get_current_form_val ($form_state, 'islandora_document_path_to_tika');
+	$islandora_path_to_tika = islandora_document_get_current_form_val ($form_state, 'islandora_path_to_tika');
 	
 	// Default to not found...
 	$confirmation_message = '<img src="' . url('misc/watchdog-error.png') . '"/> '
 					. t('Please select the location of the tika library.');
 	
-	if (isset($islandora_document_path_to_tika) && $islandora_document_path_to_tika != '') {
+	if (isset($islandora_path_to_tika) && $islandora_path_to_tika != '') {
 		 
 		// Check the version.
-		$version = islandora_document_tika_check($islandora_document_path_to_tika);
+		$version = islandora_document_tika_check($islandora_path_to_tika);
 		 
 		if ($version != null) {
 			$confirmation_message = '<img src="' . url('misc/watchdog-ok.png') . '"/>'
 							. t('!version executable found at !url', array(
-									'!url' => "<strong>$islandora_document_path_to_tika</strong>",
+									'!url' => "<strong>$islandora_path_to_tika</strong>",
 									"!version" => $version
 							));
 		} else {
 			$confirmation_message = '<img src="' . url('misc/watchdog-error.png') . '"/> '
-							. t('Unable to find Apache Tika executable at !url', array('!url' => "<strong>$islandora_document_path_to_tika</strong>"));
+							. t('Unable to find Apache Tika executable at !url', array('!url' => "<strong>$islandora_path_to_tika</strong>"));
 		}
 	}
 	
@@ -120,11 +120,11 @@ function islandora_document_admin_add_text_extraction(&$form, &$form_state) {
 	);
 	
 	// The path to apache tika element.
-	$form['islandora_document_text_fieldset']['wrapper']['islandora_document_path_to_tika'] = array(
+	$form['islandora_document_text_fieldset']['wrapper']['islandora_path_to_tika'] = array(
 			'#type' => 'textfield',
 			'#title' => t('Tika jar file'),
 			'#size' => 100,
-			'#default_value' => variable_get('islandora_document_path_to_tika', ''),
+			'#default_value' => variable_get('islandora_path_to_tika', ''),
 			'#description' => t('The full path to the Apache Tika library <br /> !confirmation_message',
 							array(
 									'!confirmation_message' => $confirmation_message)
@@ -290,8 +290,8 @@ function islandora_document_admin_validate($form, &$form_state) {
 	
 	// Extract text is checked but tika has not been configured.
   if ($form_state['values']['islandora_document_extract_text']) {
-    if (islandora_document_tika_check($form_state['values']['islandora_document_path_to_tika']) == null) {
-    	form_set_error('islandora_document_path_to_tika', t('Cannot extract text from document without a valid path to Apache Tika.'));
+    if (islandora_document_tika_check($form_state['values']['islandora_path_to_tika']) == null) {
+    	form_set_error('islandora_path_to_tika', t('Cannot extract text from document without a valid path to Apache Tika.'));
     }
   }
 }

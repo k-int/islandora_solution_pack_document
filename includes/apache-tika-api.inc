@@ -10,7 +10,7 @@ class TikaAPI {
 	private $path;
 		
 	public function __construct($possible_path = null) {
-		$this->path = realpath(variable_get('islandora_document_path_to_tika', $possible_path));
+		$this->path = realpath(variable_get('islandora_path_to_tika', $possible_path));
 	}
 	
 	public function getVersion () {
