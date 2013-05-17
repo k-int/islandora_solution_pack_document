@@ -15,21 +15,18 @@
         <?php print $islandora_content; ?>
       </div>
       <?php if (sizeof($downloadables) > 0): ?>
-      	<div>Download: (<?php
-      		$first = true;
-      	  foreach ($downloadables as $name => $url) {
+      	<h2>Downloads </h2>
+      	<ul><?php foreach ($downloadables as $name => $url) : ?>
+      		<li><?php 
       			$pinfo = pathinfo($name);
-      			print
-							(!$first ? " | " : "") .
-      					l($pinfo['extension'], $url, 
-									array('attributes' => array(
-										'class' => array('islandora-document-link'),
-										'title' => $name
-									)
-								)
-							);
-     				$first = false;
-					}	?>)</div>
+      			print	l($pinfo['extension'], $url,
+							array('attributes' => array(
+									'class' => array('islandora-document-link'),
+									'title' => $name
+							))
+						); ?>
+					</li>
+			<?php endforeach; ?></ul></div>
       <?php endif; ?>
     <?php endif; ?>
   <div class="islandora-document-sidebar">
