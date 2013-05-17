@@ -21,6 +21,11 @@ function islandora_document_create_all_derivatives(FedoraObject $object) {
     return FALSE;
   }
   $success = TRUE;
+  $current_filename = $object['OBJ']->label;
+  
+  // Get the path info.
+  $finfo = pathinfo($current_filename);
+  
   $file_uri = islandora_document_get_derivative_source_as_unmanaged_file($object);
   
   // Get the mime type.
@@ -29,7 +34,7 @@ function islandora_document_create_all_derivatives(FedoraObject $object) {
   
   // First derive a PDF if needed.
   if ($mimetype != $mime_detector->getMimetype("pdf")) {
-  	$pdf_file = islandora_document_add_pdf_derivative($object, $file_uri);
+  	$pdf_file = islandora_document_add_pdf_derivative($object, $file_uri, $finfo['filename'] . ".pdf");
   } else {
   	$pdf_file = $file_uri;
   }
@@ -94,7 +99,7 @@ function islandora_document_add_tn_derivative(FedoraObject $object, $file_uri) {
  * @return boolean
  *   The filename of the PDF so it can be used with Thumb generation, or NULL if failed.
  */
-function islandora_document_add_pdf_derivative(FedoraObject $object, $file_uri) {
+function islandora_document_add_pdf_derivative(FedoraObject $object, $file_uri, $label = null) {
 	$dsid = "PDF_ALT";
   $source = drupal_realpath($file_uri);
   
@@ -108,17 +113,21 @@ function islandora_document_add_pdf_derivative(FedoraObject $object, $file_uri) 
   } else {
   	
   	// Add the datastream.
-  	islandora_document_add_datastream($object, $dsid, $pdf_file);
+  	islandora_document_add_datastream($object, $dsid, $pdf_file, $label);
   }
   
   return $pdf_file;
 }
 
 function islandora_document_create_pdf_derivative($file_uri, $dsid) {
+	
+	// Get the destination path.
 	$source = drupal_realpath($file_uri);
-	$matches = array();
-	preg_match("/\/([^.]*).*$/", $source, $matches); // Get the base name of the source file.
-	$temp = drupal_tempnam("temporary://", "{$matches[1]}.$dsid") . ".pdf";
+	$pinfo = pathinfo($source);	
+	$pdf_path = $pinfo["filename"];
+	
+	// Create the temporary file for the conversion.
+	$temp = drupal_tempnam("temporary://", $pdf_path) . ".pdf";
 	$dest = drupal_realpath($temp);
 
 	// Get the JODConverter API.
@@ -269,11 +278,11 @@ function islandora_document_create_jpg_derivative($file_uri, $dsid, $width, $hei
  * @param string $file_uri
  *   A URI to the file containing the content for the datastream.
  */
-function islandora_document_add_datastream($object, $datastream_id, $file_uri) {
+function islandora_document_add_datastream($object, $datastream_id, $file_uri, $label = null) {
   try {
     $mime_detector = new MimeDetect();
     $ds = $object->constructDatastream($datastream_id, "M");
-    $ds->label = $datastream_id;
+    $ds->label = ($label == null ? $datastream_id : $label);
     $ds->mimetype = $mime_detector->getMimetype($file_uri);
     $ds->setContentFromFile(drupal_realpath($file_uri), FALSE);
     $object->ingestDatastream($ds);

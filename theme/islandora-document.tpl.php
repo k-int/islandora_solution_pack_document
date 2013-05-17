@@ -14,7 +14,15 @@
       <div class="islandora-document-content">
         <?php print $islandora_content; ?>
       </div>
-      <?php print $islandora_download_link; ?>
+      <?php if (sizeof($downloadables) > 0): ?>
+      	<div>Download: (<?php
+      		$first = true;
+      	  foreach ($downloadables as $name => $url) {
+      			$pinfo = pathinfo($name);
+      			print (!$first ? " | " : "") . l($pinfo['extension'], $url, array('attributes' => array('class' => array('islandora-document-link'))));
+     				$first = false;
+					}	?>)</div>
+      <?php endif; ?>
     <?php endif; ?>
   <div class="islandora-document-sidebar">
     <?php if (!empty($dc_array['dc:description']['value'])): ?>
