@@ -26,7 +26,7 @@
 							))
 						); ?>
 					</li>
-			<?php endforeach; ?></ul></div>
+				<?php endforeach; ?></ul>
       <?php endif; ?>
     <?php endif; ?>
   <div class="islandora-document-sidebar">
