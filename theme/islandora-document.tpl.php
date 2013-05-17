@@ -19,7 +19,15 @@
       		$first = true;
       	  foreach ($downloadables as $name => $url) {
       			$pinfo = pathinfo($name);
-      			print (!$first ? " | " : "") . l($pinfo['extension'], $url, array('attributes' => array('class' => array('islandora-document-link'))));
+      			print
+							(!$first ? " | " : "") .
+      					l($pinfo['extension'], $url, 
+									array('attributes' => array(
+										'class' => array('islandora-document-link'),
+										'title' => $name
+									)
+								)
+							);
      				$first = false;
 					}	?>)</div>
       <?php endif; ?>
