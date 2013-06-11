@@ -19,9 +19,9 @@
       	<ul><?php foreach ($downloadables as $name => $url) : ?>
       		<li><?php 
       			$pinfo = pathinfo($name);
-      			print	l($pinfo['extension'], $url,
+      			print	l($name, $url,
 							array('attributes' => array(
-									'class' => array('islandora-document-link'),
+									'class' => array('islandora-document-link', $pinfo['extension']),
 									'title' => $name
 							))
 						); ?>
