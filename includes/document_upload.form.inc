@@ -60,6 +60,9 @@ function islandora_document_document_upload_form_submit(array $form, array &$for
   $document_file = file_load($form_state['values']['file']);
   $document_path = drupal_realpath($document_file->uri);
   $ds->setContentFromFile($document_path, FALSE);
-  $ds->label = $document_file->filename;
+  //Changed this
+  //$ds->label = $document_file->filename;
+  $filename = preg_replace("/\\.[^.\\s]{3,4}$/", "", $document_file->filename);
+  $ds->label = $filename;
   $ds->mimetype = $document_file->filemime;
 }

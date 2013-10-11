@@ -34,7 +34,9 @@ function islandora_document_create_all_derivatives(FedoraObject $object) {
   
   // First derive a PDF if needed.
   if ($mimetype != $mime_detector->getMimetype("pdf")) {
-  	$pdf_file = islandora_document_add_pdf_derivative($object, $file_uri, $finfo['filename'] . ".pdf");
+        //Changed this
+  	//$pdf_file = islandora_document_add_pdf_derivative($object, $file_uri, $finfo['filename'] . "pdf");
+        $pdf_file = islandora_document_add_pdf_derivative($object, $file_uri, $finfo['filename']);
   } else {
   	$pdf_file = $file_uri;
   }
@@ -101,6 +103,7 @@ function islandora_document_add_tn_derivative(FedoraObject $object, $file_uri) {
  */
 function islandora_document_add_pdf_derivative(FedoraObject $object, $file_uri, $label = null) {
 	$dsid = "PDF_ALT";
+
   $source = drupal_realpath($file_uri);
   
   // Get JODConverter API and try and create a PDF.

@@ -12,16 +12,15 @@ class JodCAPI {
 	private $port;
 		
 	public function __construct($possible_libpath = NULL, $jar_name = NULL, $port = NULL) {
-		$this->lib_path = 
-			$possible_libpath != NULL ? $possible_libpath : realpath(variable_get('islandora_document_jodc_lib', NULL));
+		$this->lib_path = $possible_libpath != NULL ? $possible_libpath : realpath(variable_get('islandora_document_jodc_lib', NULL));
 		$lastChar = $this->lib_path{(strlen($this->lib_path) - 1)};
 		if ($lastChar != DIRECTORY_SEPARATOR) {
 			$this->lib_path .= DIRECTORY_SEPARATOR;
 		}
-		$this->path = $this->lib_path .
-			($jar_name != NULL ? $jar_name :  variable_get('islandora_document_jodc_jar', NULL));
-		$this->port = 
-			$port != NULL ? $port : variable_get('islandora_document_jodc_port', '2002');
+		$this->path = $this->lib_path . ($jar_name != NULL ? $jar_name :  variable_get('islandora_document_jodc_jar', NULL));
+		$this->port = $port != NULL ? $port : variable_get('islandora_document_jodc_port', '2002');
+
+
 	}
 	
 	public function convertToPDF($source, $dest) {
@@ -57,6 +56,7 @@ class JodCAPI {
 		// Return value doesn't really work here. Use the return code instead.
 		$return_var = 0;
 		$output = array();
+		
 		exec($cmd, $output, $return_var);
 		
 		// Return the result.
